@@ -1,6 +1,7 @@
 package studio9;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Polynomial {
 	
@@ -10,7 +11,7 @@ public class Polynomial {
 	 * Constructs a Polynomial with no terms yet.
 	 */
 	public Polynomial() {
-		//FIXME
+		this.list = new LinkedList<Double>();
 	}
 
 	
@@ -20,7 +21,7 @@ public class Polynomial {
 	 * @return polynomial with added term
 	 */
 	public void addTerm(double coeff) {
-		//FIXME
+		list.add(coeff);
 	}
 	
 	/*
@@ -29,7 +30,22 @@ public class Polynomial {
 	 * Cx^N + Cx^N-1 + ... + Cx + C
 	 */
 	public String toString() {
-		return ""; //FIXME
+		String temp = "";
+		for (int i = 0; i < list.size(); i++)
+		{
+			if (list.get(i) != 0 && i != list.size() - 1 && i != list.size() - 2)
+			{
+				temp += list.get(i) + "x" + "^" + (list.size() - 1 - i) + " + ";
+			}//end if
+			if (i == list.size() - 2) {
+				temp += list.get(i) + "x" + " + ";
+			}
+			if (i == list.size() - 1)
+			{
+			temp += list.get(i);
+			}
+		}//end for loop
+		return temp; 
 	}
 	
 	/**
@@ -38,12 +54,30 @@ public class Polynomial {
 	 * @return value of polynomial at that x
 	 */
 	public double evaluate(double x) {
-		return 0;//FIXME
+		double temp = 0.0;
+		for (int i = 0; i < list.size(); i++)
+		{
+			if (list.get(i) != 0)
+			{
+				temp += Math.pow(x, list.size() - i - 1) * list.get(i);
+			}//end if
+			
+		}//end for loop
+		return temp;
 	}
 
 	
-	public Polynomial derivative() {
-		return null;//FIXME
+	public LinkedList<Double> derivative() {
+		double temp = 0.0;
+		LinkedList<Double> derList = new LinkedList<Double>();
+		for (Double item : list) {
+			derList.add(item);
+		}
+		derList.remove(derList.size()-1);
+		for (int i =0; i < derList.size(); i++) {
+			derList.set(i, list.get(i)*(derList.size()-i-1));			
+		}		
+		return derList;
 	}
 	
 
@@ -96,5 +130,18 @@ public class Polynomial {
 
 		return this.list.equals(other.list);
 	}
+	
+	public static void main(String[] args){
+		Polynomial p = new Polynomial();
+		p.addTerm(2.0);
+		p.addTerm(3.0);
+		p.addTerm(4.0);
+		System.out.println(p.list);
+		System.out.println(p.toString());
+		System.out.println(p.evaluate(2.0));
+		LinkedList<Double> lst = p.derivative();
+		System.out.println(lst.toString());
+		
+	}
 
-}
+}//used outside references 
